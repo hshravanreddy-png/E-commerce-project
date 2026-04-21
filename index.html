@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shravs Shop | Premium Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #e67e22;
+            --dark: #121212;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --gray: #636e72;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--light); color: var(--dark); }
+
+        /* Navbar */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 8%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; cursor: pointer; text-decoration: none; color: inherit; }
+        .logo span { color: var(--primary); }
+
+        .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links li a {
+            text-decoration: none; color: var(--gray); font-weight: 600;
+            cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+        }
+        .nav-links li a:hover { color: var(--primary); }
+        .nav-links li a.active { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 5px; }
+
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .cart-btn {
+            background: var(--dark); color: white; padding: 8px 15px;
+            border-radius: 8px; text-decoration: none; font-size: 0.85rem; cursor: pointer;
+            transition: 0.3s;
+        }
+        .cart-btn:hover { background: var(--primary); }
+
+        /* Page Handling */
+        .page { display: none; padding: 40px 8%; animation: fadeIn 0.4s ease; min-height: 80vh; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Hero */
+        .hero {
+            height: 35vh; background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3)), 
+            url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: white; border-radius: 20px; margin-bottom: 40px; text-align: center;
+        }
+
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: var(--white); border-radius: 20px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        .card-body { padding: 20px; }
+        .category-tag { font-size: 0.7rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .price { font-size: 1.3rem; font-weight: 800; color: var(--dark); margin: 10px 0; }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        .btn-primary { background: var(--dark); color: white; transition: 0.3s; }
+        .btn-primary:hover { background: var(--primary); }
+
+        /* Cart & Profile Styles */
+        .cart-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee;
+        }
+        .cart-item img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+        .profile-container { max-width: 500px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; text-align: center; border: 1px solid #eee; }
+        .profile-pic { width: 100px; height: 100px; border-radius: 50%; background: #f0f0f0; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+
+        footer { text-align: center; padding: 40px; color: var(--gray); border-top: 1px solid #eee; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a onclick="showPage('home')" class="logo">Shravs<span>Shop</span></a>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')" id="home-link" class="active">Home</a></li>
+            <li><a onclick="showPage('home')">Shop</a></li>
+            <li><a onclick="showPage('about')" id="about-link">About Us</a></li>
+            <li><a onclick="showPage('contact')" id="contact-link">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a onclick="showPage('profile')" id="profile-link" style="cursor:pointer; font-size: 1.2rem;">👤</a>
+            <div class="cart-btn" onclick="showPage('cart')" id="cart-link">
+                Cart (<span id="count">0</span>)
+            </div>
+        </div>
+    </nav>
+
+    <div id="home" class="page active">
+        <header class="hero">
+            <h1>Premium Tech Collection</h1>
+            <p>Directly from the best brands to your doorstep.</p>
+        </header>
+
+        <h2 style="margin-bottom: 25px;">Trending Products</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600">
+                <div class="card-body">
+                    <span class="category-tag">Audio</span>
+                    <h3>Sonic Pro Headphones</h3>
+                    <p class="price">₹12,499</p>
+                    <button class="btn btn-primary" onclick="addToCart('Sonic Pro Headphones', 12499, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600">
+                <div class="card-body">
+                    <span class="category-tag">Wearables</span>
+                    <h3>Classic Smart Watch</h3>
+                    <p class="price">₹15,200</p>
+                    <button class="btn btn-primary" onclick="addToCart('Classic Smart Watch', 15200, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600">
+                <div class="card-body">
+                    <span class="category-tag">Laptops</span>
+                    <h3>ZenBook Ultra Slim</h3>
+                    <p class="price">₹84,990</p>
+                    <button class="btn btn-primary" onclick="addToCart('ZenBook Ultra Slim', 84990, 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600">
+                <div class="card-body">
+                    <span class="category-tag">Gaming</span>
+                    <h3>PlayStation 5 Console</h3>
+                    <p class="price">₹54,900</p>
+                    <button class="btn btn-primary" onclick="addToCart('PlayStation 5', 54900, 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600">
+                <div class="card-body">
+                    <span class="category-tag">Gaming</span>
+                    <h3>Mechanical RGB Keyboard</h3>
+                    <p class="price">₹6,499</p>
+                    <button class="btn btn-primary" onclick="addToCart('RGB Keyboard', 6499, 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600">
+                <div class="card-body">
+                    <span class="category-tag">Audio</span>
+                    <h3>Active Noise Earbuds</h3>
+                    <p class="price">₹5,499</p>
+                    <button class="btn btn-primary" onclick="addToCart('ANC Earbuds', 5499, 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about" class="page">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Quality meets Lifestyle</h2>
+            <p style="color: var(--gray); font-size: 1.1rem; line-height: 1.8;">Shravs Shop started with a single goal: to provide high-end technology with local reliability. We believe everyone deserves access to the best gadgets without the hefty premium markup.</p>
+            <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=800&q=80" style="width:100%; border-radius: 20px; margin-top: 30px;" alt="Our Story Image">
+        </div>
+    </div>
+
+    <div id="contact" class="page">
+        <h2 style="text-align:center;">Contact Support</h2>
+        <div style="max-width: 600px; margin: 30px auto; display: flex; flex-direction: column; gap: 15px;">
+            <input type="text" placeholder="Name" style="padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+            <input type="email" placeholder="Email" style="padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+            <textarea rows="5" placeholder="Message" style="padding: 12px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+            <button class="btn btn-primary" onclick="alert('Message Sent!')">Send Message</button>
+        </div>
+    </div>
+
+    <div id="cart" class="page">
+        <h2>Your Cart</h2>
+        <div id="cart-items-container" style="margin-top: 20px;"></div>
+        <div id="cart-total-price" style="text-align:right; font-size: 1.5rem; font-weight: 800; margin-top: 20px;">Total: ₹0</div>
+        <button class="btn btn-primary" style="max-width: 200px; float: right; margin-top: 20px;">Checkout</button>
+    </div>
+
+    <div id="profile" class="page">
+        <div class="profile-container">
+            <div class="profile-pic">👤</div>
+            <h2>Shravs User</h2>
+            <p>Platinum Member</p>
+            <button class="btn btn-primary" style="margin-top: 20px;">View Orders</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Shravs Shop India. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            const activeLink = document.getElementById(pageId + '-link');
+            if(activeLink) activeLink.classList.add('active');
+
+            if(pageId === 'cart') renderCart();
+            window.scrollTo(0,0);
+        }
+
+        function addToCart(name, price, img) {
+            cart.push({ name, price, img });
+            document.getElementById('count').innerText = cart.length;
+            alert(name + " added!");
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const totalDisplay = document.getElementById('cart-total-price');
+            
+            if (cart.length === 0) {
+                container.innerHTML = "<p>Your cart is empty.</p>";
+                totalDisplay.innerText = "Total: ₹0";
+                return;
+            }
+
+            container.innerHTML = "";
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div style="display:flex; align-items:center; gap: 15px;">
+                            <img src="${item.img}">
+                            <strong>${item.name}</strong>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 20px;">
+                            <span>₹${item.price.toLocaleString('en-IN')}</span>
+                            <button onclick="removeFromCart(${index})" style="color:red; background:none; border:none; cursor:pointer;">Remove</button>
+                        </div>
+                    </div>`;
+            });
+            totalDisplay.innerText = "Total: ₹" + total.toLocaleString('en-IN');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            document.getElementById('count').innerText = cart.length;
+            renderCart();
+        }
+    </script>
+</body>
+</html>
